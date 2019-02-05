@@ -1,0 +1,18 @@
+---
+ - name: deploy_docker
+   hosts: all 
+   become: yes
+
+   tasks: 
+     shell: apt-get update -y
+     apt: name=apt-transport-https state=latest
+     apt: name=ca-certificates state=latest
+     apt: name=curl state=latest
+     apt: name=gnupg2 state=latest
+     apt: name=software-properties-common state=latest
+     shell: curl -fsSL https://download.docker.com/linux/$(. /etc/os-release; echo "$ID")/gpg > /tmp/dkey; apt-key add /tmp/dkey
+     shell: add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/$(. /etc/os-release; echo "$ID") $(lsb_release -cs)    stable"
+     shell: apt-get update
+     apt: name=docker-ce state=latest
+     service: state=started enabled=yes
+

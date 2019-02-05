@@ -1,0 +1,7 @@
+---
+- name: docker install on app
+  hosts: app
+  become: yes
+
+  tasks: 
+     apt: name=curl state=latest

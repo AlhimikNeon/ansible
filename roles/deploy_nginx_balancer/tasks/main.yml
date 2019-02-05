@@ -1,0 +1,21 @@
+---
+# tasks file for deploy_nginx_balancer
+#
+---
+# tasks file for deploy_web_app
+# - name: Install docker-ce
+#   shell: apt-get update -y
+#   apt: name=apt-transport-https state=latest
+#   apt: name=ca-certificates state=latest
+#   apt: name=curl state=latest
+#   apt: name=gnupg2 state=latest
+#   apt: name=software-properties-common state=latest
+#   shell: curl -fsSL https://download.docker.com/linux/$(. /etc/os-release; echo "$ID")/gpg > /tmp/dkey; apt-key add /tmp/dkey
+#   shell: add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/$(. /etc/os-release; echo "$ID") $(lsb_release -cs)    stable"
+#   shell: apt-get update
+#   apt: name=docker-ce state=latest
+
+# - name: Pull Nginx image 
+#   shell: docker pull nginx
+#  
+# - name: Generate config file Nginx from Jinja2  

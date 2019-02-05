@@ -1,0 +1,7 @@
+---
+- name: deploy_docker
+  hosts: jenkins-master
+  become: yes
+
+  roles:
+   - role: deploy_web_app
