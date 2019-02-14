@@ -1,18 +1,35 @@
 --- 
- - name: Docker installation
-   shell: yum update -y
-   yum: name=yum-utils state=latest
-   yum: name=device-mapper-persistent-data state=latest
-   yum: name=lvm2 state=latest
-   shell: yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-   yum: name=docker-ce  state=latest
-   shell: systemctl start docker; sudo systemctl enable docker
-   service: state=started enabled=yes
- - name: Log into DockerHub
-   docker_login:
-    username: {{ docker_user }}
-    password: esu0mtaeB
- - name: Pull app image from DockerHub
-   shell: docker pull beatmouse/app:latest
- - name: Run app container
-   shell: docker run -d -it -p 5000:5000 beatmouse/app:latest 
+- name: Docker installation
+  - name: Update repository
+      shell: yum update -y
+  - name: Install yum-utils
+      yum:
+        name: yum-utils
+        state: latest
+  - name: Install device-mapper
+      yum:
+        name: device-mapper-persistent-data
+        state: latest
+  - name: Install lvm2
+      yum:
+        name: lvm2
+        state: latest
+  - name: Add repository      
+      shell: yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+  - name: Install docker-ce
+      yum: 
+        name: docker-ce  
+        state: latest
+  shell: systemctl start docker; sudo systemctl enable docker
+  service: state=started enabled=yes
+
+- name: Log into DockerHub
+    docker_login:
+      username: {{ docker_user }}
+      password: esu0mtaeB
+
+- name: Pull app image from DockerHub
+  shell: docker pull beatmouse/app:latest
+
+- name: Run app container
+  shell: docker run -d -it -p 5000:5000 beatmouse/app:latest 
