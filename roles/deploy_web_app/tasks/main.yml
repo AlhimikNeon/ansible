@@ -10,7 +10,7 @@
    service: state=started enabled=yes
  - name: Log into DockerHub
    docker_login:
-    username: beatmouse
+    username: {{ docker_user }}
     password: esu0mtaeB
  - name: Pull app image from DockerHub
    shell: docker pull beatmouse/app:latest
