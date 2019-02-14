@@ -1,7 +1,5 @@
 --- 
 - name: Docker installation
-  - name: Update repository
-      shell: yum update -y
   - name: Install yum-utils
       yum:
         name: yum-utils
