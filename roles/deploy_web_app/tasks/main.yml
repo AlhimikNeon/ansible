@@ -5,8 +5,7 @@
   - name: Install yum-utils
       yum:
         name: yum-utils
-        state: latest
-  - name: Install device-mapper
+        state: latest  - name: Install device-mapper
       yum:
         name: device-mapper-persistent-data
         state: latest
@@ -15,7 +14,9 @@
         name: lvm2
         state: latest
   - name: Add repository      
-      shell: yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+      yum_repository:
+        name: docker-ce.repo           
+        baseurl: yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
   - name: Install docker-ce
       yum: 
         name: docker-ce  
