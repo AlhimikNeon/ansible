@@ -1,21 +1,22 @@
 ---
-# tasks file for deploy_nginx_balancer
-#
----
-# tasks file for deploy_web_app
-# - name: Install docker-ce
-#   shell: apt-get update -y
-#   apt: name=apt-transport-https state=latest
-#   apt: name=ca-certificates state=latest
-#   apt: name=curl state=latest
-#   apt: name=gnupg2 state=latest
-#   apt: name=software-properties-common state=latest
-#   shell: curl -fsSL https://download.docker.com/linux/$(. /etc/os-release; echo "$ID")/gpg > /tmp/dkey; apt-key add /tmp/dkey
-#   shell: add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/$(. /etc/os-release; echo "$ID") $(lsb_release -cs)    stable"
-#   shell: apt-get update
-#   apt: name=docker-ce state=latest
+#tasks file for deploy_nginx_balancer
 
-# - name: Pull Nginx image 
-#   shell: docker pull nginx
-#  
+#tasks file for deploy_web_app
+tasks:
+ - name: Docker installation
+   shell: yum update -y
+   yum: name=yum-utils state=latest
+   yum: name=device-mapper-persistent-data state=latest
+   yum: name=lvm2 state=latest
+   shell: yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+   yum: name=docker-ce  state=latest
+   shell: systemctl start docker; sudo systemctl enable docker
+   service: state=started enabled=yes
+
+ - name: Pull Nginx image 
+   shell: docker pull nginx
+  
+ - name: Run Nginx
+   shell: docker run -d --name nginx -p 80:80 nginx
+    
 # - name: Generate config file Nginx from Jinja2  

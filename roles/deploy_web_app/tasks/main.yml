@@ -1,27 +1,18 @@
----
-# tasks file for deploy_web_app
-# - name: Docker installation
-#   shell: apt-get update -y
-#   apt: name=apt-transport-https state=latest
-#   apt: name=ca-certificates state=latest
-#   apt: name=curl state=latest
-#   apt: name=gnupg2 state=latest
-#   apt: name=software-properties-common state=latest
-#   shell: curl -fsSL https://download.docker.com/linux/$(. /etc/os-release; echo "$ID")/gpg > /tmp/dkey; apt-key add /tmp/dkey
-#   shell: add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/$(. /etc/os-release; echo "$ID") $(lsb_release -cs)    stable"
-#   shell: apt-get update
-#   apt: name=docker-ce state=latest
-#   service: state=started enabled=yes
-#
-# - name: Log into DockerHub
-#    docker_login:
-#        username: beatmouse
-#            password: esu0mtaeB
-#
-# - name: Pull web_app image from DockerHub
-#   shell: docker pull beatmouse/exam:app
-#
-# - name: Run_web_app_container_on_port_5000
-#   shell: docker run -d -it -h app --name app -p 5000:5000 beatmouse/exam:app 
-#
-#
+--- 
+ - name: Docker installation
+   shell: yum update -y
+   yum: name=yum-utils state=latest
+   yum: name=device-mapper-persistent-data state=latest
+   yum: name=lvm2 state=latest
+   shell: yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+   yum: name=docker-ce  state=latest
+   shell: systemctl start docker; sudo systemctl enable docker
+   service: state=started enabled=yes
+ - name: Log into DockerHub
+   docker_login:
+    username: beatmouse
+    password: esu0mtaeB
+ - name: Pull app image from DockerHub
+   shell: docker pull beatmouse/app:latest
+ - name: Run app container
+   shell: docker run -d -it -p 5000:5000 beatmouse/app:latest 

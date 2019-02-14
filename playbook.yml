@@ -1,6 +1,6 @@
 ---
 - name: deploy_docker
-  hosts: all 
+  hosts:  
   become: yes
 
   roles:
